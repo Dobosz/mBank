@@ -1,0 +1,15 @@
+<component name="libraryTable">
+  <library name="flex-messaging-core-2014_12_02__12_00_00">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/flex-messaging-core-2014_12_02__12_00_00.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/flexjson-3.2-2014.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/httpunit-2015_05_27__15_31_35.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/js-1.6R5-2012.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jsoup-1.7.3-2014.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/nekohtml-0.9.5-2012.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/xercesImpl-2.6.1-2012.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
