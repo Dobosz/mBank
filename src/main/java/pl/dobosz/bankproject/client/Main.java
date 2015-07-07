@@ -1,7 +1,7 @@
 package pl.dobosz.bankproject.client;
 
 import org.xml.sax.SAXException;
-import pl.dobosz.bankproject.client.exceptions.Exceptions;
+import pl.dobosz.bankproject.client.exceptions.LoginFailedException;
 import pl.dobosz.bankproject.client.models.Transaction;
 import pl.dobosz.bankproject.scraper.MBank;
 import pl.dobosz.bankproject.client.models.Account;
@@ -16,7 +16,7 @@ import java.util.List;
  * Created by dobosz on 01.07.15.
  */
 public class Main {
-  public static void main(String[] args) throws Exceptions.LoginFailedException, IOException, SAXException, ParseException {
+  public static void main(String[] args) throws LoginFailedException, IOException, SAXException, ParseException {
     //FIXME remove proxy
     System.getProperties().put("proxySet", "true");
     System.getProperties().put("proxyHost", "127.0.0.1");
@@ -29,11 +29,11 @@ public class Main {
     List<Account> accountList = mbank.fetchAccountList();
     for (Account account : accountList) {
       System.out.println(account);
-      System.out.println("****************************************************************");
-      List<Transaction> transactionList = mbank.fetchAccountHistory(account.accountNumber, formatter.parse("01.01.2014"), formatter.parse("01.10.2014"));
-      for(Transaction transaction : transactionList)
+      System.out.println("********************************************************************");
+      List<Transaction> transactionList = mbank.fetchAccountHistory(account.accountNumber, formatter.parse("01.01.2014"), formatter.parse("01.02.2014"));
+      for (Transaction transaction : transactionList)
         System.out.println(transaction);
-      System.out.println("****************************************************************");
+      System.out.println("********************************************************************");
     }
   }
 }

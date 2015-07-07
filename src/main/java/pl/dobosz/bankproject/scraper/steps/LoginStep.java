@@ -5,7 +5,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.xml.sax.SAXException;
-import pl.dobosz.bankproject.client.exceptions.Exceptions;
+import pl.dobosz.bankproject.client.exceptions.LoginFailedException;
 import pl.dobosz.bankproject.client.models.Credentials;
 import pl.dobosz.bankproject.scraper.models.json.LoginJSON;
 import org.codehaus.jackson.node.ObjectNode;
@@ -57,10 +57,9 @@ public class LoginStep extends Step<Void> {
   }
 
   public void assertJSONContainsSuccessfulTrue(String json) throws IOException {
-    //Check if return "successful":true
     ObjectNode node = objectMapper.readValue(json, ObjectNode.class);
     if (!node.has("successful") || !Boolean.valueOf(node.get("successful").toString()))
-      throw new Exceptions.LoginFailedException();
+      throw new LoginFailedException();
   }
 
   public String getMetaToken() throws IOException, SAXException {

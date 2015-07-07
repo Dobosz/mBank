@@ -30,7 +30,7 @@ public class AccountListStep extends Step<List<Account>> {
 
   @Override
   public List<Account> execute() throws IOException, SAXException, ParseException {
-    String json = sendPost(webConversation);
+    String json = getAccountList(webConversation);
     ObjectMapper objectMapper = new ObjectMapper();
     DisableCrashOnUnknownFields(objectMapper);
     accountsJSON = objectMapper.readValue(json, AccountsJSON.class);
@@ -41,14 +41,13 @@ public class AccountListStep extends Step<List<Account>> {
     objectMapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
   }
 
-  private String sendPost(WebConversation webConversation) throws IOException, SAXException {
+  private String getAccountList(WebConversation webConversation) throws IOException, SAXException {
     InputStream inputStream = new ByteArrayInputStream("{}".getBytes(StandardCharsets.UTF_8));
     WebRequest webRequest = new PostMethodWebRequest(CALL_URL, inputStream, "application/json;charset=utf-8");
     webRequest.setHeaderField("X-Requested-With", "XMLHttpRequest");
     webRequest.setHeaderField("Accept", "application/json, text/javascript, */*; q=0.01");
     WebResponse webResponse = webConversation.getResponse(webRequest);
-    String json = webResponse.getText();
-    return json;
+    return webResponse.getText();
   }
 
   private List<Account> getAccounts() throws ParseException {

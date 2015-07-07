@@ -25,7 +25,10 @@ public class MBank {
 
   public MBank(Credentials credentials) {
     this.credentials = credentials;
-    //JavaScripts are not needed
+    disableJavaScripts();
+  }
+
+  private void disableJavaScripts() {
     HttpUnitOptions.setScriptingEnabled(false);
   }
 
@@ -46,7 +49,7 @@ public class MBank {
   }
 
   public List<Transaction> fetchAccountHistory(String accountNumber, Date from, Date to) throws IOException, SAXException, ParseException {
-    if(!loggedIn)
+    if (!loggedIn)
       signIn();
     AccountHistoryStep accountHistoryStep = new AccountHistoryStep(webConversation, accountNumber, from, to);
     return accountHistoryStep.execute();

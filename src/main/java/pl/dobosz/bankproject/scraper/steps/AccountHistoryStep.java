@@ -99,8 +99,7 @@ public class AccountHistoryStep extends Step<List<Transaction>> {
     Document document = Jsoup.parse(response);
     Element filterChecker = document.select(".checkbox-area.checked").first();
     Element productIdInput = filterChecker.select("input[value]").first();
-    String productId = productIdInput.attr("value");
-    return productId;
+    return productIdInput.attr("value");
   }
 
   private void parseFourthStageForTransactions(String response, Date from) throws ParseException, IOException, SAXException {
@@ -109,19 +108,18 @@ public class AccountHistoryStep extends Step<List<Transaction>> {
     Elements columnsElement = transactionElement.select("header.content-list-row-header");
 
     Transaction lastTransaction = null;
-    for(Element transactionRow : columnsElement) {
+    for (Element transactionRow : columnsElement) {
       Transaction transaction = parseForTransactionData(transactionRow, webConversation);
       transactionList.add(transaction);
       lastTransaction = transaction;
       System.out.print("\rFetching: " + transactionCounter);
       transactionCounter++;
     }
-
-    if(lastTransaction != null && lastTransaction.uid != previousLastTransaction.uid) {
-      previousLastTransaction = lastTransaction;
-      getTransactionHistoryWithFilter(from, lastTransaction.transactionOn);
-    } else {
-      if(transactionList.size() > 0)
+    if (transactionList.size() > 0) {
+      if (previousLastTransaction == null || (lastTransaction != null && !lastTransaction.uid.equals(previousLastTransaction.uid))) {
+        previousLastTransaction = lastTransaction;
+        getTransactionHistoryWithFilter(from, lastTransaction.transactionOn);
+      } else
         transactionList.remove(transactionList.size() - 1);
     }
   }
@@ -168,7 +166,7 @@ public class AccountHistoryStep extends Step<List<Transaction>> {
     Element currencyBalanceHeaderElement = document.select("th:contains(Saldo po operacji)").first();
     Element currencyBalanceElement = currencyBalanceHeaderElement.parent().select("td").first();
     String currencyBalanceValue = currencyBalanceElement.text();
-    currencyBalanceValue = currencyBalanceValue.substring(0, currencyBalanceValue.length() -4).replace(",", ".").replace(" ","");
+    currencyBalanceValue = trimPLNValue(currencyBalanceValue);
     BigDecimal currencyBalance = (BigDecimal) decimalFormat.parseObject(currencyBalanceValue);
     transaction.currencyBalance = currencyBalance;
 
@@ -184,6 +182,10 @@ public class AccountHistoryStep extends Step<List<Transaction>> {
       String partyIban = partyIbanElement.text();
       transaction.partyIban = partyIban.replace(" ","");
     }
+  }
+
+  private String trimPLNValue(String currencyBalanceValue) {
+    return currencyBalanceValue.substring(0, currencyBalanceValue.length() -4).replace(",", ".").replace(" ","");
   }
 
   private List<Transaction> getTransactionList() {
