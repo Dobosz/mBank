@@ -80,15 +80,4 @@ public class Transaction {
         ", kind='" + kind + '\'' +
         ", title='" + title + '\'';
   }
-
-  @Override
-  public boolean equals(Object obj) {
-    Transaction transaction = (Transaction) obj;
-    if(obj == null)
-      return false;
-    if(this.uid.equals(transaction.uid))
-      return true;
-    return false;
-  }
 }
-

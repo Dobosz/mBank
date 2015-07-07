@@ -3,7 +3,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 import pl.dobosz.bankproject.client.Constants;
-import pl.dobosz.bankproject.client.Exceptions;
+import pl.dobosz.bankproject.client.exceptions.Exceptions;
 import pl.dobosz.bankproject.scraper.MBank;
 import pl.dobosz.bankproject.client.models.Account;
 import pl.dobosz.bankproject.client.models.Credentials;

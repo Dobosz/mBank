@@ -34,23 +34,21 @@ public class MBank {
     this.webConversation = webConversation;
   }
 
-  private void signIn() throws IOException, SAXException {
-    new LoginStep(credentials).execute(webConversation);
+  private void signIn() throws IOException, SAXException, ParseException {
+    new LoginStep(webConversation, credentials).execute();
   }
 
   public List<Account> fetchAccountList() throws ParseException, IOException, SAXException {
     if(!loggedIn)
       signIn();
-    AccountListStep accountListStep = new AccountListStep();
-    accountListStep.execute(webConversation);
-    return accountListStep.getAccounts();
+    AccountListStep accountListStep = new AccountListStep(webConversation);
+    return accountListStep.execute();
   }
 
   public List<Transaction> fetchAccountHistory(String accountNumber, Date from, Date to) throws IOException, SAXException, ParseException {
     if(!loggedIn)
       signIn();
-    AccountHistoryStep accountHistoryStep = new AccountHistoryStep(accountNumber, from, to);
-    accountHistoryStep.execute(webConversation);
-    return accountHistoryStep.getTransactionList();
+    AccountHistoryStep accountHistoryStep = new AccountHistoryStep(webConversation, accountNumber, from, to);
+    return accountHistoryStep.execute();
   }
 }
